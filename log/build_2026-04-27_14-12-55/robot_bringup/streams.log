@@ -1,0 +1,26 @@
+[0.955s] Invoking command in '/home/hania/project/build/robot_bringup': AMENT_PREFIX_PATH=/home/hania/project/install/robot_controllers:/home/hania/project/install/robot_bringup:/home/hania/project/install/robot_description:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/hania/project/build/robot_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/hania/project/install/robot_bringup/lib/python3.12/site-packages:/home/hania/project/build/robot_controllers:/home/hania/project/install/robot_controllers/lib/python3.12/site-packages:/home/hania/project/build/robot_bringup:/home/hania/project/install/robot_bringup/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/hania/project/build/robot_bringup/build --no-deps symlink_data
+[1.277s] running develop
+[1.478s] running egg_info
+[1.483s] creating robot_bringup.egg-info
+[1.514s] writing robot_bringup.egg-info/PKG-INFO
+[1.515s] writing dependency_links to robot_bringup.egg-info/dependency_links.txt
+[1.515s] writing requirements to robot_bringup.egg-info/requires.txt
+[1.515s] writing top-level names to robot_bringup.egg-info/top_level.txt
+[1.516s] writing manifest file 'robot_bringup.egg-info/SOURCES.txt'
+[1.561s] reading manifest file 'robot_bringup.egg-info/SOURCES.txt'
+[1.562s] writing manifest file 'robot_bringup.egg-info/SOURCES.txt'
+[1.601s] running build_ext
+[1.601s] Creating /home/hania/project/install/robot_bringup/lib/python3.12/site-packages/robot-bringup.egg-link (link to .)
+[1.603s] 
+[1.603s] Installed /home/hania/project/build/robot_bringup
+[1.603s] running symlink_data
+[1.604s] creating /home/hania/project/install/robot_bringup/share/ament_index
+[1.604s] creating /home/hania/project/install/robot_bringup/share/ament_index/resource_index
+[1.605s] creating /home/hania/project/install/robot_bringup/share/ament_index/resource_index/packages
+[1.605s] symbolically linking /home/hania/project/build/robot_bringup/resource/robot_bringup -> /home/hania/project/install/robot_bringup/share/ament_index/resource_index/packages
+[1.605s] symbolically linking /home/hania/project/build/robot_bringup/package.xml -> /home/hania/project/install/robot_bringup/share/robot_bringup
+[1.605s] creating /home/hania/project/install/robot_bringup/share/robot_bringup/launch
+[1.605s] symbolically linking /home/hania/project/build/robot_bringup/launch/gazebo.launch.py -> /home/hania/project/install/robot_bringup/share/robot_bringup/launch
+[1.605s] creating /home/hania/project/install/robot_bringup/share/robot_bringup/worlds
+[1.606s] symbolically linking /home/hania/project/build/robot_bringup/worlds/warehouse.sdf -> /home/hania/project/install/robot_bringup/share/robot_bringup/worlds
+[1.645s] Invoked command in '/home/hania/project/build/robot_bringup' returned '0': AMENT_PREFIX_PATH=/home/hania/project/install/robot_controllers:/home/hania/project/install/robot_bringup:/home/hania/project/install/robot_description:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/hania/project/build/robot_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/hania/project/install/robot_bringup/lib/python3.12/site-packages:/home/hania/project/build/robot_controllers:/home/hania/project/install/robot_controllers/lib/python3.12/site-packages:/home/hania/project/build/robot_bringup:/home/hania/project/install/robot_bringup/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/hania/project/build/robot_bringup/build --no-deps symlink_data
