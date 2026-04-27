@@ -1,0 +1,15 @@
+[1.237s] Invoking command in '/home/hania/project/build/robot_controllers': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/hania/project/build/robot_controllers/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/hania/project/install/robot_controllers/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/hania/project/build/robot_controllers/build --no-deps symlink_data
+[1.648s] running develop
+[1.902s] running egg_info
+[1.929s] writing robot_controllers.egg-info/PKG-INFO
+[1.930s] writing dependency_links to robot_controllers.egg-info/dependency_links.txt
+[1.931s] writing requirements to robot_controllers.egg-info/requires.txt
+[1.932s] writing top-level names to robot_controllers.egg-info/top_level.txt
+[1.982s] reading manifest file 'robot_controllers.egg-info/SOURCES.txt'
+[1.983s] writing manifest file 'robot_controllers.egg-info/SOURCES.txt'
+[2.016s] running build_ext
+[2.016s] Creating /home/hania/project/install/robot_controllers/lib/python3.12/site-packages/robot-controllers.egg-link (link to .)
+[2.019s] 
+[2.019s] Installed /home/hania/project/build/robot_controllers
+[2.020s] running symlink_data
+[2.057s] Invoked command in '/home/hania/project/build/robot_controllers' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/hania/project/build/robot_controllers/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/hania/project/install/robot_controllers/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/hania/project/build/robot_controllers/build --no-deps symlink_data

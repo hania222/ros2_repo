@@ -1,0 +1,15 @@
+[2.071s] Invoking command in '/home/hania/project/build/robot_bringup': AMENT_PREFIX_PATH=/home/hania/project/install/robot_controllers:/home/hania/project/install/robot_bringup:/home/hania/project/install/robot_description:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/hania/project/build/robot_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/hania/project/install/robot_bringup/lib/python3.12/site-packages:/home/hania/project/build/robot_controllers:/home/hania/project/install/robot_controllers/lib/python3.12/site-packages:/home/hania/project/build/robot_bringup:/home/hania/project/install/robot_bringup/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/hania/project/build/robot_bringup/build --no-deps symlink_data
+[2.712s] running develop
+[3.064s] running egg_info
+[3.107s] writing robot_bringup.egg-info/PKG-INFO
+[3.109s] writing dependency_links to robot_bringup.egg-info/dependency_links.txt
+[3.111s] writing requirements to robot_bringup.egg-info/requires.txt
+[3.112s] writing top-level names to robot_bringup.egg-info/top_level.txt
+[3.196s] reading manifest file 'robot_bringup.egg-info/SOURCES.txt'
+[3.220s] writing manifest file 'robot_bringup.egg-info/SOURCES.txt'
+[3.267s] running build_ext
+[3.269s] Creating /home/hania/project/install/robot_bringup/lib/python3.12/site-packages/robot-bringup.egg-link (link to .)
+[3.270s] 
+[3.270s] Installed /home/hania/project/build/robot_bringup
+[3.270s] running symlink_data
+[3.334s] Invoked command in '/home/hania/project/build/robot_bringup' returned '0': AMENT_PREFIX_PATH=/home/hania/project/install/robot_controllers:/home/hania/project/install/robot_bringup:/home/hania/project/install/robot_description:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/hania/project/build/robot_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/hania/project/install/robot_bringup/lib/python3.12/site-packages:/home/hania/project/build/robot_controllers:/home/hania/project/install/robot_controllers/lib/python3.12/site-packages:/home/hania/project/build/robot_bringup:/home/hania/project/install/robot_bringup/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/hania/project/build/robot_bringup/build --no-deps symlink_data
