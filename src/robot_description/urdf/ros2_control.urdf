@@ -43,7 +43,7 @@
   </ros2_control>
 
   <!-- ═══════════════════════════════════════════════════
-       Gazebo plugins
+       gz_ros2_control plugin
        ═══════════════════════════════════════════════════ -->
   <gazebo>
     <plugin filename="gz_ros2_control-system"
@@ -55,9 +55,7 @@
     </plugin>
   </gazebo>
 
-  <!-- ═══════════════════════════════════════════════════
-       Wheel friction
-       ═══════════════════════════════════════════════════ -->
+  <!-- Wheel friction-->
   <gazebo reference="LEFT_WHEEL">
     <mu1>0.8</mu1><mu2>0.8</mu2>
     <kp>1000000.0</kp><kd>1.0</kd>
@@ -75,11 +73,7 @@
     <mu1>0.01</mu1><mu2>0.01</mu2>
   </gazebo>
 
-  <!-- ═══════════════════════════════════════════════════
-       LiDAR physical link + joint
-       (defined here so _merge_urdfs inserts them into the
-        base URDF's <robot> block alongside CHASSIS)
-       ═══════════════════════════════════════════════════ -->
+  <!--LiDAR link + joint-->
   <link name="lidar_link">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -104,24 +98,17 @@
     <origin xyz="-0.32 0.0 0.055" rpy="0 0 0"/>
   </joint>
 
-  <!-- ═══════════════════════════════════════════════════
-       Gazebo sensor block for the LiDAR
-
-       CRITICAL FIXES vs previous version:
-         1. <gz_frame_id> stamps every LaserScan with "lidar_link"
-            so ros_gz_bridge forwards the correct frame_id to ROS2
-         2. <visualize> is INSIDE <sensor> (Gazebo ignores it outside)
-         3. <pose relative_to="lidar_link"> anchors the ray origin
-            explicitly — avoids Gazebo silently using world origin
-         4. sensor type uses the fully-qualified string recognised by
-            Gazebo Harmonic/Ionic: "gpu_lidar"  (NOT "ray")
-       ═══════════════════════════════════════════════════ -->
+  <!--Gazebo GPU LiDAR sensor
+       - gz_frame_id stamps LaserScan header with lidar_link
+         so the bridge passes the correct frame_id to ROS 2
+       - topic /scan matches the bridge argument and
+         slam_params.yaml scan_topic-->
   <gazebo reference="lidar_link">
     <sensor name="rplidar_a1" type="gpu_lidar">
       <pose relative_to="lidar_link">0 0 0 0 0 0</pose>
       <topic>/scan</topic>
       <gz_frame_id>lidar_link</gz_frame_id>
-      <update_rate>5.5</update_rate>
+      <update_rate>10</update_rate>
       <visualize>true</visualize>
       <always_on>true</always_on>
       <lidar>

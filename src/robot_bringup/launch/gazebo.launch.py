@@ -6,6 +6,7 @@ from launch.actions import (
     DeclareLaunchArgument,
     IncludeLaunchDescription,
     RegisterEventHandler,
+    TimerAction,
 )
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -79,9 +80,9 @@ def generate_launch_description():
     gz_urdf  = _build_urdf(base_urdf, control_urdf, controllers_yaml)
     rsp_urdf = _build_rsp_urdf(base_urdf, control_urdf, controllers_yaml)
 
-    # ── FIX: build world path as a plain string using pkg_bringup ─
     world_path = os.path.join(pkg_bringup, 'worlds', 'warehouse.sdf')
 
+    # ── Gazebo Harmonic ────────────────────────────────────────────
     gazebo = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             PathJoinSubstitution([
@@ -94,6 +95,7 @@ def generate_launch_description():
         }.items(),
     )
 
+    # ── Robot State Publisher ──────────────────────────────────────
     robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -105,6 +107,7 @@ def generate_launch_description():
         ],
     )
 
+    # ── Bridges ───────────────────────────────────────────────────
     clock_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
@@ -114,15 +117,21 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}],
     )
 
+    # in gazebo.launch.py replace lidar_bridge with:
     lidar_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         name='lidar_bridge',
         output='screen',
         arguments=['/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan'],
-        parameters=[{'use_sim_time': use_sim_time}],
+        parameters=[
+            {'use_sim_time': use_sim_time},
+            {'subscription_heartbeat_period_ms': 100},
+        ],
+        remappings=[],
     )
 
+    # ── Spawn robot ───────────────────────────────────────────────
     spawn_robot = Node(
         package='ros_gz_sim',
         executable='create',
@@ -140,6 +149,9 @@ def generate_launch_description():
         ],
     )
 
+    # ── Controllers ───────────────────────────────────────────────
+    # Delay JSB spawn to ensure controller_manager is fully ready
+    # after the robot has been spawned into Gazebo
     joint_state_broadcaster_spawner = Node(
         package='controller_manager',
         executable='spawner',
@@ -164,11 +176,42 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}],
     )
 
+    # Wait 5 s for Gazebo + controller_manager to be ready before
+    # spawning JSB, then spawn diff_drive only after JSB exits cleanly
+    delayed_jsb = TimerAction(
+        period=5.0,
+        actions=[joint_state_broadcaster_spawner],
+    )
+
     load_diff_after_jsb = RegisterEventHandler(
         OnProcessExit(
             target_action=joint_state_broadcaster_spawner,
             on_exit=[diff_drive_spawner],
         )
+    )
+
+    # ── SLAM Toolbox (online async) ────────────────────────────────
+    # Delay SLAM until odom→CHASSIS TF is being published by
+    # diff_drive_controller (needs both controllers active first)
+    slam_params = os.path.join(pkg_bringup, 'config', 'slam_params.yaml')
+
+    slam_toolbox = TimerAction(
+        period=15.0,   # after JSB(5s) + diff_drive is active
+        actions=[
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([
+                    PathJoinSubstitution([
+                        FindPackageShare('slam_toolbox'),
+                        'launch',
+                        'online_async_launch.py',
+                    ])
+                ]),
+                launch_arguments={
+                    'slam_params_file': slam_params,
+                    'use_sim_time':     'true',
+                }.items(),
+            )
+        ],
     )
 
     return LaunchDescription([
@@ -179,11 +222,23 @@ def generate_launch_description():
             description='Use Gazebo simulation clock',
         ),
 
+        # 1. Simulator
         gazebo,
+
+        # 2. TF publisher (needs robot_description, no deps on sim)
         robot_state_publisher,
+
+        # 3. Bridges — /clock must arrive before controllers use sim time
         clock_bridge,
         lidar_bridge,
+
+        # 4. Spawn robot into Gazebo → starts controller_manager
         spawn_robot,
-        joint_state_broadcaster_spawner,
+
+        # 5. JSB after 5 s delay → diff_drive after JSB exits
+        delayed_jsb,
         load_diff_after_jsb,
+
+        # 6. SLAM after 12 s — odom→CHASSIS TF guaranteed to exist
+        slam_toolbox,
     ])
