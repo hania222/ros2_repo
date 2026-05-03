@@ -1,0 +1,7 @@
+image : tb3_world.pgm
+resolution: 0.050000   #1 cell=5cm
+origin: [-10.000000, -10.000000, 0.000000]
+negate: 0              #if 1, black pixels are free and white pixels are occupied. if 0, black pixels are occupied and white pixels are free
+occupied_thresh: 0.65  #if pixel value is occupied more than 65%, it is occupied(obstacle)
+free_thresh: 0.196     #if pixel value is occcupied less than 25%, it is free
+
