@@ -1,0 +1,82 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Map
+      Name: Map
+      Topic:
+        Value: /map
+      Alpha: 0.7
+      Enabled: true
+      Draw Behind: false
+    - Class: rviz_default_plugins/Map
+      Name: Global Costmap
+      Topic:
+        Value: /global_costmap/costmap
+      Alpha: 0.5
+      Enabled: true
+      Draw Behind: false
+      Color Scheme: costmap
+    - Class: rviz_default_plugins/Map
+      Name: Local Costmap
+      Topic:
+        Value: /local_costmap/costmap
+      Alpha: 0.5
+      Enabled: true
+      Draw Behind: false
+      Color Scheme: costmap
+    - Class: rviz_default_plugins/LaserScan
+      Name: LaserScan
+      Topic:
+        Value: /scan
+      Size (m): 0.05
+      Color: 255; 50; 50
+      Enabled: true
+    - Class: rviz_default_plugins/Path
+      Name: Global Plan
+      Topic:
+        Value: /plan
+      Color: 0; 255; 0
+      Enabled: true
+    - Class: rviz_default_plugins/Path
+      Name: Local Plan
+      Topic:
+        Value: /local_plan
+      Color: 0; 0; 255
+      Enabled: true
+    - Class: rviz_default_plugins/Pose
+      Name: Robot Pose
+      Topic:
+        Value: /amcl_pose
+      Enabled: true
+      Shape: Arrow
+    - Class: rviz_default_plugins/PoseArray
+      Name: AMCL Particles
+      Topic:
+        Value: /particle_cloud
+      Color: 0; 255; 0
+      Enabled: true
+    - Class: rviz_default_plugins/RobotModel
+      Name: RobotModel
+      Description Topic:
+        Value: /robot_description
+      Enabled: true
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Enabled: false
+  Global Options:
+    Fixed Frame: map
+    Background Color: 48; 48; 48
+    Frame Rate: 30
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/SetInitialPose
+      Topic:
+        Value: /initialpose
+    - Class: rviz_default_plugins/SetGoal
+      Topic:
+        Value: /goal_pose

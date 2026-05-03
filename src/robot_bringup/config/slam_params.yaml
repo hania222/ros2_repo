@@ -1,0 +1,98 @@
+slam_toolbox:
+  ros__parameters:
+    #Solver (math engine that adjusts the map)
+    autostart: true
+    solver_plugin: solver_plugins::CeresSolver  # default library, Ceres is more robust to outliers than g2o, but slower. For a small map and slow robot, it's a good choice.
+    ceres_linear_solver: SPARSE_NORMAL_CHOLESKY # how eq are solved, SPARSE is efficinet for large maps
+    ceres_preconditioner: SCHUR_JACOBI          #for optimization, SCHUR_JACOBI is more efficient for sparse problems like SLAM
+    ceres_trust_strategy: LEVENBERG_MARQUARDT
+    ceres_dogleg_type: TRADITIONAL_DOGLEG
+    ceres_loss_function: None          # robust loss function to reduce impact of outliers, None means no loss function, Cauchy or Huber are common choices for SLAM real robots, but for a simulated robot with perfect measurements, None is fine.
+
+    # Frames & topics 
+    odom_frame:  odom
+    map_frame:   map
+    base_frame:  CHASSIS
+    scan_topic:  /scan
+    mode:        mapping
+
+    #mode: mapping
+    #map_file_name: /home/hania/project/src/robot_bringup/maps/my_map2.yaml  # no extension
+    #map_start_at_dock: true
+
+    # ── Map saving (to save the map via: ros2 run nav2_map_server map_saver_cli -f <map_name>) ─────────────────────────
+    use_map_saver: true
+
+    # ── Logging ───────────────────────────────────────────────────
+    debug_logging: false
+
+    # ── Scan processing ───────────────────────────────────────────
+    throttle_scans:       1     # 1 means process every scan, 2 means process every 2nd scan etc. Adjust based on CPU load and scan frequency.
+    use_scan_matching:    true  # matches scans to estimate motion, can be turned off if you have perfect odometry, but in practice it's good to have it on for better accuracy and robustness.
+    use_scan_barycenter:  true  # improves stability by using the center of the scan points, can be turned off if you have perfect odometry, but in practice it's good to have it on for better accuracy and robustness.
+
+    #TF / timing (tuned for VirtualBox) 
+    map_update_interval:      5.0     # how often map updates, was 2.0 — VM can't keep up with fast updates, bigger =more stable, slower
+    restamp_tf:               false
+    transform_timeout:        1.0     # how long to wait for TF, was 0.5 — give more time under VM lag
+    tf_buffer_duration:       30.0    # how long TF history is stored,was 60.0 — reduce memory pressure
+    minimum_time_interval:    0.5
+
+    #LiDAR range limits (should match the actual sensor specs)
+    min_laser_range: 0.15
+    max_laser_range: 8.0
+
+    # Travel thresholds (ignore small movements to avoid noise) (increased to filter VM odometry jitter)
+    minimum_travel_distance: 0.3     # was 0.1 — prevents jitter from spamming scans
+    minimum_travel_heading:  0.5     # was 0.3
+    check_min_dist_and_heading_precisely: false
+
+    #Scan buffer (number of past scans stored for scan matching and loop closure, adjust based on available memory and map size)
+    scan_buffer_size:                  10
+    scan_buffer_maximum_scan_distance: 8.0
+
+    #Scan-matching response thresholds 
+    link_match_minimum_response_fine: 0.4     # was 0.1 — reject poor matches (if too high , slam may fail)
+    link_scan_maximum_distance:       2.5     # was 1.5 — wider search window
+
+    # Loop closure ( robot returns to previously visited locations) 
+    do_loop_closing:                     true
+    loop_search_maximum_distance:        3.0
+    loop_match_minimum_chain_size:       15    # was 10 — require stronger evidence
+    loop_match_maximum_variance_coarse:  3.0
+    loop_match_minimum_response_coarse:  0.5   # was 0.35 — stricter
+    loop_match_minimum_response_fine:    0.6   # was 0.45 — stricter
+
+    #Correlation search (fine scan matching) 
+    correlation_search_space_dimension:       0.5  #(how far to search around the initial guess, in meters)
+    correlation_search_space_resolution:      0.01 #(precision of the search, in meters)
+    correlation_search_space_smear_deviation: 0.1
+
+    # Loop search space (for loop closure, to find similar locations) 
+    loop_search_space_dimension:       8.0
+    loop_search_space_resolution:      0.05
+    loop_search_space_smear_deviation: 0.03
+
+    #Penalty weights (penalize unrealistic movements) 
+    distance_variance_penalty: 0.5
+    angle_variance_penalty:    1.0
+
+    # Angular search offsets(how much rotation SLAM tries during matching) 
+    fine_search_angle_offset:   0.00349    # ~0.2 deg
+    coarse_search_angle_offset: 0.349      # ~20 deg
+    coarse_angle_resolution:    0.0349     # ~2 deg
+    minimum_angle_penalty:      0.9
+    minimum_distance_penalty:   0.5
+    use_response_expansion:     true
+
+    #Map resolution & occupancy 
+    resolution:           0.05 # (1 cell = 5cm) in meters per cell, smaller = more detail but slow, higher = faster but less detail
+    occupancy_minimum:    0.25 # below this, cell is free
+    stack_size_to_use:    40000000
+
+    #Occupancy thresholds (CRITICAL FIX) 
+    occupancy_threshold: 0.65    # was 0.1 — root cause of noisy map
+    min_pass_through:    3       # was 2 — require more hits before marking occupied(prevents noise from marking cells occupied)
+
+    #Interactive mode (allows editing map in RViz)
+    enable_interactive_mode: true
