@@ -57,7 +57,7 @@
 
   <!-- Wheel friction-->
   <gazebo reference="LEFT_WHEEL">
-    <mu1>0.8</mu1><mu2>0.8</mu2>
+    <mu1>0.8</mu1><mu2>0.8</mu2>  <!--mu1 is longitudinal friction, mu2 is lateral friction, just guessing not real values-->
     <kp>1000000.0</kp><kd>1.0</kd>
     <minDepth>0.001</minDepth><maxVel>0.1</maxVel>
   </gazebo>

@@ -8,41 +8,40 @@ controller_manager:
 
 diff_drive_controller:
   ros__parameters:
-    # Swapped intentionally: corrects SolidWorks joint-axis flip
+    # right wheel is flipped 180° in URDF (rpy="3.14159 0 0")
+    # so we swap names AND negate the right radius multiplier
     left_wheel_names:  ['right_wheel']
     right_wheel_names: ['left_wheel']
-
     wheel_separation: 0.642
     wheel_radius:     0.069
-
     left_wheel_radius_multiplier:  1.0
-    right_wheel_radius_multiplier: -1.0
+    right_wheel_radius_multiplier: -1.0   # negates the 180° flip
+
+    wheel_separation: 0.642 #robot angular velocity = (right_wheel_velocity - left_wheel_velocity) * wheel_radius / wheel_separation
+    wheel_radius:     0.069 # linear velocity = wheel_rpm * wheel_radius
+
 
     odom_frame_id: odom
     base_frame_id: CHASSIS
-
-    pose_covariance_diagonal:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
-    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]
-
+    pose_covariance_diagonal:  [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]  #uncertainty of the pose estimation (x, y, z, roll, pitch, yaw)
+    twist_covariance_diagonal: [0.001, 0.001, 0.001, 0.001, 0.001, 0.01]  #uncertainty of the twist estimation (linear x, linear y, linear z, angular x, angular y, angular z)
     linear:
       x:
         has_velocity_limits:     true
-        max_velocity:            1.0
+        max_velocity:            1.0  # max m/s linear velocity 
         has_acceleration_limits: true
-        max_acceleration:        0.5
-
+        max_acceleration:        0.5  
     angular:
       z:
         has_velocity_limits:     true
-        max_velocity:            2.0
+        max_velocity:            1.5 #rad/s angular velocity
         has_acceleration_limits: true
         max_acceleration:        1.0
-
-    cmd_vel_timeout:  0.5
-    publish_rate:     50.0
-    use_stamped_vel:  false
-    open_loop:        false
-    enable_odom_tf:   true
+    cmd_vel_timeout:  0.5  #if no cmd_vel received for this duration, the robot will stop to avoid runaway
+    publish_rate:     50.0 #odom and twist will be published each 20ms
+    use_stamped_vel:  true #controllers expects geometry_msgs/TwistStamped, if false, it will use geometry_msgs/Twist and set the timestamp to current time
+    open_loop:        false #uses feedback (encoders)
+    enable_odom_tf:   true #automatically publish the transform from odom to base_link (CHASSIS) frames
 
 joint_state_broadcaster:
   ros__parameters: {}
